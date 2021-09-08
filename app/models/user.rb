@@ -1,6 +1,6 @@
 class User < ApplicationRecord
-    has_many :posts
-    has_many :comments
-    validates :name, presence: true
-    validates :name, uniqueness: true
+    has_many :posts, dependent: :destroy
+    has_many :comments, dependent: :destroy
+    validates :username, presence: true, uniqueness: true
+    has_secure_password
 end

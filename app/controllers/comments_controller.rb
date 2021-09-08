@@ -1,48 +1,45 @@
 class CommentsController < ApplicationController
-  rescue_from ActiveRecord::RecordNotFound, with: :render_not_found
-  rescue_from ActiveRecord::RecordInvalid, with: :render_unprocessable_entity
+  before_action :set_post, only: [:index, :create]
   before_action :set_comment, only: [:show, :update, :destroy]
 
   def index
-    @comments = Comment.all
-    render json: @comments
+    #post = Post.find(params[:post_id])
+    render json: post.comments
   end
 
   def show
-    render json: @comment
+    render json: comment
   end
 
   def create
-    @comment = Comment.create!(comment_params)
-    render json: @comment
+    #post = Post.find(params[:post_id]) 
+    comment = post.comments.create!(comment_params)
+    render json: comment
   end
 
   def update
-    @comment.update!(comment_params)
-    render json: @comment
+    #comment = Comment.find(params[:id])
+    comment.update!(comment_params)
+    render json: comment
   end
 
   def destroy
-    @comment.destroy
-    render json: @comment
+    comment.destroy
+    render json: comment
   end
 
   private
-    
+
     def set_comment
-      @comment = Comment.find_by_id(params[:id])
+      comment = Comment.find(params[:id])
+    end
+    
+    def set_post
+      post = Post.find(params[:post_id])
     end
 
     def comment_params
-      params.fetch(:comment, {})
-    end
-
-    def render_unprocessable_entity
-      render json: @comment.errors, status: :unprocessable_entity
-    end
-    
-    def render_not_found
-      render json: {message: "not found"}, status: :not_found
+      params.require(:comment).permit(:body, :name)
     end
     
 end

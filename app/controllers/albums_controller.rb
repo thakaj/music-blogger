@@ -1,10 +1,9 @@
 class AlbumsController < ApplicationController
-  rescue_from ActiveRecord::RecordInvalid, with: :render_unprocessable_entity
   before_action :set_album, only: [:show]
+  before_action :set_artist, only: [:index, :create]
 
   def index
-    @albums = Album.all
-    render json: @albums
+    render json: artist.albums
   end
 
   def show
@@ -12,22 +11,23 @@ class AlbumsController < ApplicationController
   end
 
   def create
-    @album = Album.create!(album_params)
-    render json: @album
+    album = artist.albums.create!(album_params)
+    render json: album
   end
 
 
   private
 
+  def set_artist
+    artist = Artist.find(params[:post_id])
+  end
+
     def set_album
-      @album = Album.find_by_id(params[:id])
+      @album = Album.find(params[:id])
     end
 
     def album_params
       params.require(:album).permit(:name)
     end
 
-    def render_unprocessable_entity
-      render json: @album.errors, status: :unprocessable_entity
-    end
 end
