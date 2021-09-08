@@ -1,51 +1,46 @@
 class PostsController < ApplicationController
+  rescue_from ActiveRecord::RecordNotFound, with: :render_not_found
+  rescue_from ActiveRecord::RecordInvalid, with: :render_unprocessable_entity
   before_action :set_post, only: [:show, :update, :destroy]
 
-  # GET /posts
   def index
     @posts = Post.all
-
     render json: @posts
   end
 
-  # GET /posts/1
   def show
     render json: @post
   end
 
-  # POST /posts
   def create
-    @post = Post.new(post_params)
-
-    if @post.save
-      render json: @post, status: :created, location: @post
-    else
-      render json: @post.errors, status: :unprocessable_entity
-    end
+    @post = Post.create!(post_params)
+    render json: @post
   end
 
-  # PATCH/PUT /posts/1
   def update
-    if @post.update(post_params)
-      render json: @post
-    else
-      render json: @post.errors, status: :unprocessable_entity
-    end
+    @post.update!(post_params)
+    render json: @post
   end
 
-  # DELETE /posts/1
   def destroy
     @post.destroy
+    render json: @post
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
     def set_post
-      @post = Post.find(params[:id])
+      @post = Post.find_by_id(params[:id])
     end
 
-    # Only allow a list of trusted parameters through.
     def post_params
       params.require(:post).permit(:body.text)
+    end
+
+    def render_not_found
+      render json: {message: "not found"}, status: :not_found
+    end
+
+    def render_unprocessable_entity
+      render json: @post.errors, status: :unprocessable_entity
     end
 end
