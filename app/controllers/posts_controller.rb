@@ -7,31 +7,31 @@ class PostsController < ApplicationController
   end
 
   def show
-    render json: post
+    render json: @post
   end
 
   def create
-    @ost = Post.create!(post_params)
+    post = Post.create!(post_params)
     render json: post
   end
 
   def update
-    post.update!(post_params)
-    render json: post
+    @post.update!(post_params)
+    render json: @post
   end
 
   def destroy
-    post.destroy
-    render json: post
+    @post.destroy
+    render json: @post
   end
 
   private
     def set_post
-      post = Post.find(params[:id])
+      @post = Post.find(params[:id])
     end
 
     def post_params
-      params.require(:post).permit(:body, :name)
+      params.require(:post).permit(:body, :title)
     end
 
 end
