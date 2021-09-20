@@ -10,7 +10,7 @@
 taulant = User.create(username: "taulant", password: "test", password_confirmation: "test")
 
 
-post_1 = Post.create(body: "this is a test", title: "test")
+post_1 = Post.create(body: "this is a test", title: "test", user: taulant)
 
 
 
