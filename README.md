@@ -16,7 +16,7 @@ Supplemental guides:
 
 Here is the frontend needed: https://github.com/thakaj/music-blogger-frontend
 
-Here is a video explanation of my project: https://www.youtube.com/watch?v=9_YRRu9GLq4&ab_channel=TaulantHakaj
+Here is a video explanation of my project: https://www.youtube.com/watch?v=w156-EvAtME&ab_channel=TaulantHakaj
 
 Here is a blog i wrote about making production time: https://taulantfhakaj.medium.com/when-perfectionism-has-a-deadline-75eea09eb6a7
 
