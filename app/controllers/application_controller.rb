@@ -6,11 +6,11 @@ class ApplicationController < ActionController::API
     private 
 
         def render_not_found(exception)
-         render json: {message: exception.message}, status: :not_found
+         render json: {messages: exception.message}, status: :not_found
         end
 
         def render_unprocessable_entity(exception)
-            render json: exception.record.errors, status: :unprocessable_entity
+            render json: {errors: exception.record.errors.full_messages }, status: :unprocessable_entity
         end
 
 end

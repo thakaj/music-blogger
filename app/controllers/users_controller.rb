@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:destroy]
+  #before_action :set_user, only: [:destroy]
   
 
 
@@ -8,20 +8,20 @@ class UsersController < ApplicationController
     if @user
       render json: @user
     else
-      render json: { error: "Not authorized"}, status: :unauthorized
+      render json: { errors: "Not authorized"}, status: :unauthorized
     end
   end
 
   def create
     user = User.create!(user_params)
     session[:user_id] = user.id
-    render json: user, status: :created
+    render json: {messages: "Signup sucessful", user: user}, status: :created
   end
 
-  def destroy
-    @user.destroy
-    render json: @user
-  end
+  #def destroy
+    #@user.destroy
+   #render json: @user
+  #end
 
   private
     #def set_user
