@@ -5,6 +5,12 @@ class ApplicationController < ActionController::API
 
     private 
 
+        def authorize
+             @logged_in_user = User.find_by(id: session[:user_id])
+
+             render json: {errors: "Not Authorized"}, status: :unauthorized unless @logged_in_user
+        end
+
         def render_not_found(exception)
          render json: {messages: exception.message}, status: :not_found
         end
