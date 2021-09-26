@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  resources :posts 
+  resources :posts
  
 
   resources :users, only: [:create]  #index only needed if you want users to look up other users ---possibly nested route for posts --> stretch goal

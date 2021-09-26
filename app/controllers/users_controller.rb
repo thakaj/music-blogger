@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  #before_action :set_user, only: [:destroy]
+
   
 
 
@@ -18,15 +18,10 @@ class UsersController < ApplicationController
     render json: {messages: "Signup sucessful", user: user}, status: :created
   end
 
-  #def destroy
-    #@user.destroy
-   #render json: @user
-  #end
+ 
 
   private
-    #def set_user
-     # @user = User.find(params[:id])
-    #end
+  
     def user_params
       params.require(:user).permit(:username, :password, :password_confirmation)
     end

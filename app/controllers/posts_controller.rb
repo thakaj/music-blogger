@@ -12,15 +12,15 @@ class PostsController < ApplicationController
 
   def create
     logged_in_user = User.find_by(id: session[:user_id])
-    post = Post.create!(body: params[:body], title: params[:title], user_id: logged_in_user.id)
+    post = logged_in_user.posts.create!(post_params)
     render json: post, status: :created
   end
 
   def update
-    post = Post.find(params[:id])
+    post = Post.find_by(id: params[:id])
     logged_in_user = User.find_by(id: session[:user_id])
     if post.user_id == logged_in_user.id
-      post.update!(body: params[:body], title: params[:title])
+      post.update!(post_params)
       render json: post
     else
       render json: {errors: "Not Authorized"}, status: :unauthorized
@@ -28,7 +28,7 @@ class PostsController < ApplicationController
   end
 
   def destroy
-    post = Post.find(params[:id])
+    post = Post.find_by(id: params[:id])
     logged_in_user = User.find_by(id: session[:user_id])
     if post.user_id == logged_in_user.id
       post.destroy
@@ -39,9 +39,9 @@ class PostsController < ApplicationController
   end
 
   private
-    def set_post
-      @post = Post.find(params[:id])
-    end
 
+  def post_params
+    params.require(:post).permit(:body, :title)
+  end
 
 end

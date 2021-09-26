@@ -1,6 +1,6 @@
 class SessionsController < ApplicationController
 
-    #post/login
+    
     def create
         user = User.find_by(username: params[:user][:username])
         if user && user.authenticate(params[:user][:password])
@@ -11,7 +11,7 @@ class SessionsController < ApplicationController
         end
     end
 
-    #delete/logout
+ 
     def destroy
         session.destroy
         render json: {messages: "You've been logged out"}, status: 200
